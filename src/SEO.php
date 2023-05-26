@@ -18,13 +18,13 @@ class SEO
         return Group::make(
             Arr::only([
                 'en_title' => TextInput::make('en_title')
-                    ->label(__('filament-seo::translations.en_title'))
+                    ->label(__('filament-seo::en.en_title'))
                     ->columnSpan(2),
                 'ar_title' => TextInput::make('ar_title')
-                    ->label(__('filament-seo::translations.ar_title'))
+                    ->label(__('filament-seo::en.ar_title'))
                     ->columnSpan(2),
                 'en_description' => Textarea::make('en_description')
-                    ->label(__('filament-seo::translations.en_description'))
+                    ->label(__('filament-seo::en.en_description'))
                     ->helperText(function (?string $state): string {
                         return (string) Str::of(strlen($state))
                             ->append(' / ')
@@ -33,7 +33,7 @@ class SEO
                     ->reactive()
                     ->columnSpan(2),
                 'ar_description' => Textarea::make('ar_description')
-                    ->label(__('filament-seo::translations.ar_description'))
+                    ->label(__('filament-seo::en.ar_description'))
                     ->helperText(function (?string $state): string {
                         return (string) Str::of(strlen($state))
                             ->append(' / ')
@@ -42,26 +42,31 @@ class SEO
                     ->reactive()
                     ->columnSpan(2),
                 'en_keywords' => TextInput::make('en_keywords')
-                    ->label(__('filament-seo::translations.en_keywords'))
+                    ->label(__('filament-seo::en.en_keywords'))
                     ->columnSpan(2),
                 'ar_keywords' => TextInput::make('ar_keywords')
-                    ->label(__('filament-seo::translations.ar_keywords'))
+                    ->label(__('filament-seo::en.ar_keywords'))
                     ->columnSpan(2),
                 'follow' => Select::make('follow')
-                    ->label('filament-seo::translations.follow')
+                    ->label(__('filament-seo::en.follow'))
                     ->options([
-                        'index_and_follow' => 'Index and follow',
-                        'no_index_and_follow' => 'No index and follow',
-                        'index_and_no_follow' => 'Index and no follow',
-                        'no_index_and_no_follow' => 'No index and no follow',
+                        'index, follow' => 'Index and follow',
+                        'no index, follow' => 'No index and follow',
+                        'index, no follow' => 'Index and no follow',
+                        'no index, no follow' => 'No index and no follow',
                     ]),
-                'image' => ImageColumn::make('image')
-                    ->label('filament-seo::translations.image'),
             ], $only)
         )
             ->afterStateHydrated(function (Group $component, ?Model $record) use ($only): void {
-                $component->getChildComponentContainer()->fill(
-                    $record?->seo_meta?->only($only) ?: []
+                $component->getChildComponentContainer()->fill($record->seo_meta ? [
+                    'en_title' => $record?->seo_meta['title']->en,
+                    'ar_title' => $record?->seo_meta['title']->ar,
+                    'en_description' => $record?->seo_meta['description']->en,
+                    'ar_description' => $record?->seo_meta['description']->ar,
+                    'en_keywords' => $record?->seo_meta['keywords']->en,
+                    'ar_keywords' => $record?->seo_meta['keywords']->ar,
+                    'follow' => $record?->seo_meta['follow_type'],
+                ] : []
                 );
             })
             ->statePath('seo')
@@ -70,9 +75,19 @@ class SEO
                 $state = collect($state)->only($only)->map(fn ($value) => $value ?: null)->all();
 
                 if ($record->seo_meta && $record->seo_meta->exists) {
-                    $record->seo_meta->update($state);
+                    $record->seo_meta->update([
+                        'title' => ['en' => $state['en_title'], 'ar' => $state['ar_title']],
+                        'description' => ['en' => $state['en_description'], 'ar' => $state['ar_description']],
+                        'keywords' => ['en' => $state['en_keywords'], 'ar' => $state['ar_keywords']],
+                        'follow_type' => $state['follow'],
+                    ]);
                 } else {
-                    $record->seo_meta()->create($state);
+                    $record->seo_meta()->create([
+                        'title' => ['en' => $state['en_title'], 'ar' => $state['ar_title']],
+                        'description' => ['en' => $state['en_description'], 'ar' => $state['ar_description']],
+                        'keywords' => ['en' => $state['en_keywords'], 'ar' => $state['ar_keywords']],
+                        'follow_type' => $state['follow'],
+                    ]);
                 }
             });
     }
