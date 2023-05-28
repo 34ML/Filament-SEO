@@ -65,12 +65,12 @@ class SEO
         )
             ->afterStateHydrated(function (Group $component, ?Model $record) use ($only): void {
                 $component->getChildComponentContainer()->fill($record->seo_meta ? [
-                    'en_title' => $record?->seo_meta['title']->en,
-                    'ar_title' => $record?->seo_meta['title']->ar,
-                    'en_description' => $record?->seo_meta['description']->en,
-                    'ar_description' => $record?->seo_meta['description']->ar,
-                    'en_keywords' => $record?->seo_meta['keywords']->en,
-                    'ar_keywords' => $record?->seo_meta['keywords']->ar,
+                    'en_title' => empty($record->seo_meta['title']) ? $record->seo_meta['title']->en : null,
+                    'ar_title' => empty($record->seo_meta['title']) ? $record->seo_meta['title']->ar : null,
+                    'en_description' => empty($record->seo_meta['description']) ? $record->seo_meta['description']->en : null,
+                    'ar_description' => empty($record->seo_meta['description']) ? $record->seo_meta['description']->ar : null,
+                    'en_keywords' => empty($record->seo_meta['keywords']) ? $record->seo_meta['keywords']->en : null,
+                    'ar_keywords' => empty($record->seo_meta['keywords']) ? $record->seo_meta['keywords']->ar : null,
                     'follow' => $record?->seo_meta['follow_type'],
                     'image' => $record?->seo_meta['image'],
                 ] : []
