@@ -2,6 +2,7 @@
 
 namespace _34ml\SEO;
 
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -53,7 +54,13 @@ class SEO
                         'no index, follow' => 'No index and follow',
                         'index, no follow' => 'Index and no follow',
                         'no index, no follow' => 'No index and no follow',
-                    ]),
+                    ])
+                    ->columnSpan(2),
+                'image' => FileUpload::make('image')
+                    ->image()
+                    ->label(__('filament-seo::en.image'))
+                    ->columnSpan(2)
+                    ->disk(config('filament.default_filesystem_disk'))
             ], $only)
         )
             ->afterStateHydrated(function (Group $component, ?Model $record) use ($only): void {
@@ -65,6 +72,7 @@ class SEO
                     'en_keywords' => $record?->seo_meta['keywords']->en,
                     'ar_keywords' => $record?->seo_meta['keywords']->ar,
                     'follow' => $record?->seo_meta['follow_type'],
+                    'image' => $record?->seo_meta['image'],
                 ] : []
                 );
             })
@@ -79,6 +87,7 @@ class SEO
                         'description' => ['en' => $state['en_description'], 'ar' => $state['ar_description']],
                         'keywords' => ['en' => $state['en_keywords'], 'ar' => $state['ar_keywords']],
                         'follow_type' => $state['follow'],
+                        'image' => reset($state['image']),
                     ]);
                 } else {
                     $record->seo_meta()->create([
@@ -86,6 +95,7 @@ class SEO
                         'description' => ['en' => $state['en_description'], 'ar' => $state['ar_description']],
                         'keywords' => ['en' => $state['en_keywords'], 'ar' => $state['ar_keywords']],
                         'follow_type' => $state['follow'],
+                        'image' => reset($state['image']),
                     ]);
                 }
             });
