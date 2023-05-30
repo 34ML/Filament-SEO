@@ -64,7 +64,7 @@ class SEO
             ], $only)
         )
             ->afterStateHydrated(function (Group $component, ?Model $record) use ($only): void {
-                $component->getChildComponentContainer()->fill($record->seo_meta ? [
+                $component->getChildComponentContainer()->fill($record?->seo_meta ? [
                     'en_title' => empty($record->seo_meta['title']) ? $record->seo_meta['title']->en : null,
                     'ar_title' => empty($record->seo_meta['title']) ? $record->seo_meta['title']->ar : null,
                     'en_description' => empty($record->seo_meta['description']) ? $record->seo_meta['description']->en : null,
