@@ -50,9 +50,9 @@ class SEO
                 'follow' => Select::make('follow')
                     ->label(__('filament-seo::en.follow'))
                     ->options([
-                        'index, follow' => 'Index and follow',
-                        'no index, follow' => 'No index and follow',
-                        'index, no follow' => 'Index and no follow',
+                        'index, follow'       => 'Index and follow',
+                        'no index, follow'    => 'No index and follow',
+                        'index, no follow'    => 'Index and no follow',
                         'no index, no follow' => 'No index and no follow',
                     ])
                     ->columnSpan(2),
@@ -60,19 +60,19 @@ class SEO
                     ->image()
                     ->label(__('filament-seo::en.image'))
                     ->columnSpan(2)
-                    ->disk(config('filament.default_filesystem_disk'))
+                    ->disk(config('filament.default_filesystem_disk')),
             ], $only)
         )
-            ->afterStateHydrated(function (Group $component, ?Model $record) use ($only): void {
+            ->afterStateHydrated(function (Group $component, ?Model $record): void {
                 $component->getChildComponentContainer()->fill($record?->seo_meta ? [
-                    'en_title' => empty($record->seo_meta['title']) ? $record->seo_meta['title']->en : null,
-                    'ar_title' => empty($record->seo_meta['title']) ? $record->seo_meta['title']->ar : null,
-                    'en_description' => empty($record->seo_meta['description']) ? $record->seo_meta['description']->en : null,
-                    'ar_description' => empty($record->seo_meta['description']) ? $record->seo_meta['description']->ar : null,
-                    'en_keywords' => empty($record->seo_meta['keywords']) ? $record->seo_meta['keywords']->en : null,
-                    'ar_keywords' => empty($record->seo_meta['keywords']) ? $record->seo_meta['keywords']->ar : null,
-                    'follow' => $record?->seo_meta['follow_type'],
-                    'image' => $record?->seo_meta['image'],
+                    'en_title'       => ! empty($record->seo_meta['title']) ? $record->seo_meta['title']->en : null,
+                    'ar_title'       => ! empty($record->seo_meta['title']) ? $record->seo_meta['title']->ar : null,
+                    'en_description' => ! empty($record->seo_meta['description']) ? $record->seo_meta['description']->en : null,
+                    'ar_description' => ! empty($record->seo_meta['description']) ? $record->seo_meta['description']->ar : null,
+                    'en_keywords'    => ! empty($record->seo_meta['keywords']) ? $record->seo_meta['keywords']->en : null,
+                    'ar_keywords'    => ! empty($record->seo_meta['keywords']) ? $record->seo_meta['keywords']->ar : null,
+                    'follow'         => $record?->seo_meta['follow_type'],
+                    'image'          => $record?->seo_meta['image'],
                 ] : []
                 );
             })
@@ -83,19 +83,19 @@ class SEO
 
                 if ($record->seo_meta && $record->seo_meta->exists) {
                     $record->seo_meta->update([
-                        'title' => ['en' => $state['en_title'], 'ar' => $state['ar_title']],
+                        'title'       => ['en' => $state['en_title'], 'ar' => $state['ar_title']],
                         'description' => ['en' => $state['en_description'], 'ar' => $state['ar_description']],
-                        'keywords' => ['en' => $state['en_keywords'], 'ar' => $state['ar_keywords']],
+                        'keywords'    => ['en' => $state['en_keywords'], 'ar' => $state['ar_keywords']],
                         'follow_type' => $state['follow'],
-                        'image' => reset($state['image']),
+                        'image'       => reset($state['image']),
                     ]);
                 } else {
                     $record->seo_meta()->create([
-                        'title' => ['en' => $state['en_title'], 'ar' => $state['ar_title']],
+                        'title'       => ['en' => $state['en_title'], 'ar' => $state['ar_title']],
                         'description' => ['en' => $state['en_description'], 'ar' => $state['ar_description']],
-                        'keywords' => ['en' => $state['en_keywords'], 'ar' => $state['ar_keywords']],
+                        'keywords'    => ['en' => $state['en_keywords'], 'ar' => $state['ar_keywords']],
                         'follow_type' => $state['follow'],
-                        'image' => reset($state['image']),
+                        'image'       => reset($state['image']),
                     ]);
                 }
             });
