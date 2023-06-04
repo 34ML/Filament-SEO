@@ -1,19 +1,8 @@
-# This is my package filament-seo
+# SEO field for filament admin panel
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/34ml/filament-seo.svg?style=flat-square)](https://packagist.org/packages/34ml/filament-seo)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/34ml/filament-seo/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/34ml/filament-seo/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/34ml/filament-seo/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/34ml/filament-seo/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/34ml/filament-seo.svg?style=flat-square)](https://packagist.org/packages/34ml/filament-seo)
+This package is a convenient helper for using the [laravel-seo](https://github.com/AndreasGJ/seo-meta-field-nova) package with Filament Admin and Forms.
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/Filament-SEO.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/Filament-SEO)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+It provides a simple component that returns a Filament field group to modify the title, description, keywords, follow type and image fields of the SEO model. It automatically takes care of getting and saving all the data to the seo() relationship, and you can thus use it anywhere, without additional configuration!
 
 ## Installation
 
@@ -23,37 +12,18 @@ You can install the package via composer:
 composer require 34ml/filament-seo
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="filament-seo-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="filament-seo-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="filament-seo-views"
-```
-
 ## Usage
 
 ```php
-$sEO = new _34ml\SEO();
-echo $sEO->echoPhrase('Hello, _34ml!');
+use _34ml\SEO\SEO;
+
+public static function form(Form $form): Form
+{
+    return $form->schema([
+        SEO::make(),
+       // .. Your other fields
+    ]);
+}
 ```
 
 ## Testing
@@ -62,22 +32,13 @@ echo $sEO->echoPhrase('Hello, _34ml!');
 composer test
 ```
 
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
 ## Credits
 
 - [Ahmed Essam](https://github.com/aessam13)
-- [All Contributors](../../contributors)
 
 ## License
 
