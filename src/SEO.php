@@ -67,12 +67,12 @@ class SEO
             )
             ->afterStateHydrated(function (Section $component, ?Model $record): void {
                 $component->getChildComponentContainer()->fill($record?->seo_meta ? [
-                    'en_title'       => ! empty($record->seo_meta['title']) ? $record->seo_meta['title']->en : null,
-                    'ar_title'       => ! empty($record->seo_meta['title']) ? $record->seo_meta['title']->ar : null,
-                    'en_description' => ! empty($record->seo_meta['description']) ? $record->seo_meta['description']->en : null,
-                    'ar_description' => ! empty($record->seo_meta['description']) ? $record->seo_meta['description']->ar : null,
-                    'en_keywords'    => ! empty($record->seo_meta['keywords']) ? $record->seo_meta['keywords']->en : null,
-                    'ar_keywords'    => ! empty($record->seo_meta['keywords']) ? $record->seo_meta['keywords']->ar : null,
+                    'en_title'       => ! empty((array)$record->seo_meta['title']) ? $record->seo_meta['title']->en : null,
+                    'ar_title'       => ! empty((array)$record->seo_meta['title']) ? $record->seo_meta['title']->ar : null,
+                    'en_description' => ! empty((array)$record->seo_meta['description']) ? $record->seo_meta['description']->en : null,
+                    'ar_description' => ! empty((array)$record->seo_meta['description']) ? $record->seo_meta['description']->ar : null,
+                    'en_keywords'    => ! empty((array)$record->seo_meta['keywords']) ? $record->seo_meta['keywords']->en : null,
+                    'ar_keywords'    => ! empty((array)$record->seo_meta['keywords']) ? $record->seo_meta['keywords']->ar : null,
                     'follow'         => $record?->seo_meta['follow_type'],
                     'image'          => $record?->seo_meta['image'],
                 ] : []
