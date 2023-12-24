@@ -1,5 +1,6 @@
 # SEO field for filament admin panel
 
+![SEOFieldHeader](https://raw.githubusercontent.com/34ML/Filament-SEO/main/resources/Images/Filament-Seo.jpg)
 
 This package is a convenient helper for using the [laravel-seo](https://github.com/34ML/laravel-seo) package with Filament Admin and Forms.
 
