@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'en_title' => 'Title [en]',
-    'ar_title' => 'Title [ar]',
-    'en_description' => 'Description [en]',
-    'ar_description' => 'Description [ar]',
-    'en_keywords' => 'Keywords [en]',
-    'ar_keywords' => 'Keywords [ar]',
+    config('seo.locales.primary_locale').'_title' => 'Title [' . config('seo.locales.primary_locale') . ']',
+    config('seo.locales.secondary_locale').'_title' => 'Title [' . config('seo.locales.secondary_locale') . ']',
+    config('seo.locales.primary_locale').'_description' => 'Description [' . config('seo.locales.primary_locale') . ']',
+    config('seo.locales.secondary_locale').'_description' => 'Description [' . config('seo.locales.secondary_locale') . ']',
+    config('seo.locales.primary_locale').'_keywords' => 'Keywords [' . config('seo.locales.primary_locale') . ']',
+    config('seo.locales.secondary_locale').'_keywords' => 'Keywords [' . config('seo.locales.secondary_locale') . ']',
     'follow' => 'Follow',
     'image' => 'Image',
 ];
