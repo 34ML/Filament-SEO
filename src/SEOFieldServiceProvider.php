@@ -5,7 +5,7 @@ namespace _34ml\SEO;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class SEOServiceProvider extends PackageServiceProvider
+class SEOFieldServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -16,6 +16,7 @@ class SEOServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('filament-seo')
+            ->hasConfigFile()
             ->hasTranslations();
     }
 }
