@@ -63,7 +63,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "_34ml\\SEO\\SEOServiceProvider"
+                "_34ml\\SEO\\SEOFieldServiceProvider"
             ],
             "aliases": {
                 "SEO": "_34ml\\SEO\\Facades\\SEO"
