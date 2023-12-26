@@ -31,6 +31,8 @@ The config file will look like this:
 return [
     'locales' => [ //Add your locales here
         'en',
+        'ar',
+        'fr',
     ],
 ];
 ```
