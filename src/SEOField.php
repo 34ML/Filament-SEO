@@ -61,35 +61,26 @@ class SEOField
                                 return $record?->seo_model ? $record->seo_model['follow_type'] : null;
                             })
                             ->columnSpan(2),
-                        FileUpload::make('image')
-                            ->image()
-                            ->label('Image')
-                            ->formatStateUsing(function (FileUpload $component, ?Model $record) {
-                                return $record?->seo_model ? $record->seo_model['image'] : null;
-                            })
-                            ->columnSpan(2)
-                            ->disk(config('filament.default_filesystem_disk')),
                     ]
                 )
                 ->statePath('seo')
                 ->dehydrated(false)
                 ->saveRelationshipsUsing(function (Model $record, array $state) use ($locale): void {
                     $state = collect($state)->map(fn ($value) => $value ?: null)->all();
+                    $record->load('seo_model');
                     if ($record->seo_model && $record->seo_model->exists) {
                         $record->seo_model->update([
                             'title'       => array_merge($record->seo_model->title, [$locale => $state[$locale.'_title']]),
                             'description' => array_merge($record->seo_model->description, [$locale => $state[$locale.'_description']]),
                             'keywords'    => array_merge($record->seo_model->keywords, [$locale => $state[$locale.'_keywords']]),
                             'follow_type' => $state['follow'],
-                            'image'       => $state['image'] != null ? reset($state['image']) : null,
                         ]);
                     } else {
-                        $record->seo_model->create([
+                        $record->seo_model()->create([
                             'title'       => [$locale => $state[$locale.'_title']],
                             'description' => [$locale => $state[$locale.'_description']],
                             'keywords'    => [$locale => $state[$locale.'_keywords']],
                             'follow_type' => $state['follow'],
-                            'image'       => $state['image'] != null ? reset($state['image']) : null,
                         ]);
                     }
                 });
