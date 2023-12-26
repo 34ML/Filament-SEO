@@ -8,7 +8,7 @@
 
 * It automatically takes care of getting and saving all the data to the seo relationship, and you can thus use it anywhere, without additional configuration!
 
-![FieldExample](https://raw.githubusercontent.com/34ML/Filament-SEO/main/resources/Images/FieldExample.jpg)
+![FieldExample](https://raw.githubusercontent.com/34ML/Filament-SEO/main/resources/Images/FieldExample.png)
 
 
 ## Installation
