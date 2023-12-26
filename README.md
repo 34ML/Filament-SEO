@@ -38,6 +38,7 @@ You need also to publish the migration file to create the seo table from the [la
 
 ```bash
 php artisan vendor:publish --tag="seo-migrations"
+php artisan migrate
 ```
 
 ## Usage
