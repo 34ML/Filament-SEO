@@ -16,7 +16,6 @@ class SEOFieldServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('filament-seo')
-            ->hasConfigFile('filament-seo-field')
-            ->hasTranslations();
+            ->hasConfigFile('filament-seo-field');
     }
 }

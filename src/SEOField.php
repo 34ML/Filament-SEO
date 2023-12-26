@@ -26,13 +26,13 @@ class SEOField
                 ->schema(
                     [
                         TextInput::make($locale.'_title')
-                            ->label(__('filament-seo::en.'. $locale .'_title'))
+                            ->label(__('Title[' . $locale . ']'))
                             ->formatStateUsing(function (TextInput $component, ?Model $record) use ($locale) {
                                 return $record?->seo_model ? $record->seo_model['title'][$locale] : null;
                             })
                             ->columnSpan(2),
                         Textarea::make($locale.'_description')
-                            ->label(__('filament-seo::en.'. $locale .'_description'))
+                            ->label(__( 'Description[' . $locale . ']'))
                             ->helperText(function (?string $state): string {
                                 return (string) Str::of(strlen($state))
                                     ->append(' / ')
@@ -44,13 +44,13 @@ class SEOField
                             ->reactive()
                             ->columnSpan(2),
                         TextInput::make($locale.'_keywords')
-                            ->label(__('filament-seo::en.'. $locale .'_keywords'))
+                            ->label(__('Keywords[' . $locale . ']'))
                             ->formatStateUsing(function (TextInput $component, ?Model $record) use ($locale) {
                                 return $record?->seo_model ? $record->seo_model['keywords'][$locale] : null;
                             })
                             ->columnSpan(2),
                         Select::make('follow')
-                            ->label(__('filament-seo::en.follow'))
+                            ->label(__('Follow'))
                             ->options([
                                 'index, follow'       => 'Index and follow',
                                 'no index, follow'    => 'No index and follow',
@@ -63,7 +63,7 @@ class SEOField
                             ->columnSpan(2),
                         FileUpload::make('image')
                             ->image()
-                            ->label(__('filament-seo::en.image'))
+                            ->label(__('Image'))
                             ->formatStateUsing(function (FileUpload $component, ?Model $record) {
                                 return $record?->seo_model ? $record->seo_model['image'] : null;
                             })
