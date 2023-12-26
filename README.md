@@ -2,7 +2,7 @@
 
 ![SEOFieldHeader](https://raw.githubusercontent.com/34ML/Filament-SEO/main/resources/Images/Filament-Seo.jpg)
 
-* This package is a convenient helper for using the [laravel-seo](https://github.com/34ML/laravel-seo) package with Filament Admin and Forms, please check it for more information about how to set up the SEO logic in your project.
+* This package is a convenient helper for using the [laravel-seo](https://github.com/34ML/laravel-seo) package with Filament Admin and Forms , please check it for more information about how to set up the SEO logic in your project.
 
 * It provides a simple component that returns a Filament field group for **_***any language***_** you want to modify the title, description, keywords, follow type fields of the SEO model.
 

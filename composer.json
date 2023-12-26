@@ -1,10 +1,11 @@
 {
     "name": "34ml/filament-seo",
-    "description": "This is my package filament-seo",
+    "description": "SEO package for Filament Admin Panel",
     "keywords": [
         "34ML",
         "laravel",
-        "filament-seo"
+        "filament",
+        "seo",
     ],
     "homepage": "https://github.com/34ml/filament-seo",
     "license": "MIT",
