@@ -3,10 +3,12 @@
 namespace _34ml\SEO;
 
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -20,9 +22,8 @@ class SEOField
         }
 
         foreach (config('filament-seo-field.locales') as $locale) {
-            $section = Section::make('SEO')
+            $section = Group::make()
                 ->label($fieldDisplayName ?? 'SEO')
-                ->description('Add your ' . $locale . ' seo here')
                 ->schema(
                     [
                         TextInput::make($locale.'_title')
@@ -91,6 +92,11 @@ class SEOField
         return $sections;
     }
 
+    /**
+     * @param mixed $callbacks
+     * @param mixed $field
+     * @codeCoverageIgnore
+     */
     public static function processCallbacks(mixed $callbacks, &$field): void
     {
         if ($callbacks != null) {
