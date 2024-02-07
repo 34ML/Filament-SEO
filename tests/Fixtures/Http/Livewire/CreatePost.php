@@ -29,6 +29,13 @@ class CreatePost extends Component implements HasForms
         return view('livewire.create-post');
     }
 
+    public function submitForm(): void
+    {
+        $post = Post::create($this->form->getState());
+
+        $this->form->model($post)->saveRelationships();
+    }
+
     protected function getFormSchema(): array
     {
         return [
@@ -45,12 +52,5 @@ class CreatePost extends Component implements HasForms
     protected function getFormModel(): Model|string|null
     {
         return Post::class;
-    }
-
-    public function submitForm(): void
-    {
-        $post = Post::create($this->form->getState());
-
-        $this->form->model($post)->saveRelationships();
     }
 }

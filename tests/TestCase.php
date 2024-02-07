@@ -10,17 +10,17 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use _34ml\SEO\SEOServiceProvider;
 
 class TestCase extends Orchestra
 {
-    protected function setUp(): void
+    public function getEnvironmentSetUp($app)
     {
-        parent::setUp();
+        config()->set('database.default', 'testing');
 
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => '_34ml\\SEO\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
+        View::addLocation(__DIR__ . '/Fixtures/resources/views');
+
+        (include __DIR__ . '/Fixtures/Migrations/create_post_table.php')->up();
+        (include __DIR__ . '/../vendor/34ml/laravel-seo/database/migrations/create_seo_table.php.stub')->up();
     }
 
     protected function getPackageProviders($app)
@@ -34,13 +34,12 @@ class TestCase extends Orchestra
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    protected function setUp(): void
     {
-        config()->set('database.default', 'testing');
+        parent::setUp();
 
-        View::addLocation(__DIR__ . '/Fixtures/resources/views');
-
-        (include __DIR__ . '/Fixtures/Migrations/create_post_table.php')->up();
-        (include __DIR__ . '/../vendor/34ml/laravel-seo/database/migrations/create_seo_table.php.stub')->up();
+        Factory::guessFactoryNamesUsing(
+            fn (string $modelName) => '_34ml\\SEO\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+        );
     }
 }
