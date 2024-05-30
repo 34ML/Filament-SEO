@@ -27,13 +27,13 @@
         }
     ],
     "require": {
-        "php": "^8.0 | ^8.1",
+        "php": "^8.0 | ^8.1 | ^8.2",
         "34ml/laravel-seo": "^1.0",
         "filament/filament": "^2.12 | ^3.0",
         "spatie/laravel-package-tools": "^1.14.0"
     },
     "require-dev": {
-        "nunomaduro/collision": "^7.9",
+        "nunomaduro/collision": "^7.9 | ^8.1",
         "orchestra/testbench": "^8.0",
         "pestphp/pest": "^2.30",
         "pestphp/pest-plugin-laravel": "^2.2"
