@@ -2,7 +2,6 @@
 
 namespace _34ml\SEO\Tests\Fixtures\Http\Livewire;
 
-use _34ML\SEO\SEO;
 use _34ml\SEO\SEOField;
 use _34ml\SEO\Tests\Fixtures\Models\Post;
 use Filament\Forms\Components\TextInput;
@@ -18,9 +17,9 @@ class EditPost extends Component implements HasForms
 
     public array $data = [];
 
-    public static $seoFields = [];
-
     public Post $post;
+
+    public static $seoFields = [];
 
     public function mount(): void
     {
@@ -32,6 +31,13 @@ class EditPost extends Component implements HasForms
     public function render(): View
     {
         return view('livewire.edit-post');
+    }
+
+    public function submitForm()
+    {
+        $this->post->update(
+            $this->form->getState(),
+        );
     }
 
     protected function getFormModel(): Model|string|null
@@ -50,12 +56,5 @@ class EditPost extends Component implements HasForms
     protected function getFormStatePath(): ?string
     {
         return 'data';
-    }
-
-    public function submitForm()
-    {
-        $this->post->update(
-            $this->form->getState(),
-        );
     }
 }
