@@ -23,9 +23,9 @@ test('can create post with adding en seo data', function () {
     ]);
 
     $this->assertDatabaseHas(SEO::class, [
-        'title' => "{\"en\":\"seo title\"}",
-        'description' => "{\"en\":\"seo description\"}",
-        'keywords' => "{\"en\":\"seo keywords\"}",
+        'title'       => '{"en":"seo title"}',
+        'description' => '{"en":"seo description"}',
+        'keywords'    => '{"en":"seo keywords"}',
         'follow_type' => 'follow',
     ]);
 });
@@ -55,10 +55,10 @@ test('can update a post without a seo model', function () {
     ]);
 
     $this->assertDatabaseHas(SEO::class, [
-        'title' => "{\"en\":\"seo title\"}",
-        'description' => "{\"en\":\"seo description\"}",
-        'keywords' => "{\"en\":\"seo keywords\"}",
-        'follow' => 'follow',
+        'title'       => '{"en":"seo title"}',
+        'description' => '{"en":"seo description"}',
+        'keywords'    => '{"en":"seo keywords"}',
+        'follow'      => 'follow',
     ]);
 });
 
@@ -90,9 +90,9 @@ test('can update the post with seo', function () {
     ]);
 
     $this->assertDatabaseHas(SEO::class, [
-        'title' => "{\"en\":\"seo title #2\"}",
-        'description' => "{\"en\":null}",
-        "keywords" => "{\"en\":null}",
-        'follow' => 'follow',
+        'title'       => '{"en":"seo title #2"}',
+        'description' => '{"en":null}',
+        'keywords'    => '{"en":null}',
+        'follow'      => 'follow',
     ]);
 });
