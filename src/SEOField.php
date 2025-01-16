@@ -2,6 +2,7 @@
 
 namespace _34ml\SEO;
 
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
@@ -26,32 +27,9 @@ class SEOField
                 ->label($fieldDisplayName ?? 'SEO')
                 ->schema(
                     [
-                        TextInput::make($locale.'_title')
-                            ->label('Title[' . $locale . ']')
-                            ->formatStateUsing(function (TextInput $component, ?Model $record) use ($locale) {
-                                return $record?->seo_model ? $record->seo_model['title'][$locale] : null;
-                            })
-                            ->columnSpan(2),
-                        Textarea::make($locale.'_description')
-                            ->label( 'Description[' . $locale . ']')
-                            ->helperText(function (?string $state): string {
-                                return (string) Str::of(strlen($state))
-                                    ->append(' / ')
-                                    ->append(160 . ' ');
-                            })
-                            ->formatStateUsing(function (Textarea $component, ?Model $record) use ($locale) {
-                                return $record?->seo_model ? $record->seo_model['description'][$locale] : null;
-                            })
-                            ->reactive()
-                            ->columnSpan(2),
-                        TextInput::make($locale.'_keywords')
-                            ->label('Keywords[' . $locale . ']')
-                            ->formatStateUsing(function (TextInput $component, ?Model $record) use ($locale) {
-                                return $record?->seo_model ? $record->seo_model['keywords'][$locale] : null;
-                            })
-                            ->columnSpan(2),
                         Select::make('follow')
-                            ->label('Follow')
+                            ->label('Index/Follow')
+                            ->live()
                             ->options([
                                 'index, follow'       => 'Index and follow',
                                 'no index, follow'    => 'No index and follow',
@@ -61,6 +39,47 @@ class SEOField
                             ->formatStateUsing(function (Select $component, ?Model $record) {
                                 return $record?->seo_model ? $record->seo_model['follow_type'] : null;
                             })
+                            ->extraFieldWrapperAttributes(['class' => 'tooltip']) // for tooltip styling
+                            ->hintAction(self::getHintActionWithToolTip(
+                                "Choose whether search engines should index and follow this product page. Selecting 'Index' allows search engines to include it in search results, and 'Follow' lets them track links on the page."))
+                            ->columnSpan(2),
+                        TextInput::make($locale.'_title')
+                            ->label('Meta Title [' . $locale . ']')
+                            ->formatStateUsing(function (TextInput $component, ?Model $record) use ($locale) {
+                                return $record?->seo_model ? $record->seo_model['title'][$locale] : null;
+                            })
+                            ->columnSpan(2)
+                            ->maxLength(60)
+                            ->extraFieldWrapperAttributes(['class' => 'tooltip']) // for tooltip styling
+                            ->hintAction(self::getHintActionWithToolTip(
+                                'Enter a concise, descriptive title for your product. This appears in search results and should include relevant keywords'))
+                            ->hidden(fn($get) => $get('follow') == 'no index, no follow'),
+                        Textarea::make($locale.'_description')
+                            ->label( 'Meta Description [' . $locale . ']')
+                            ->helperText(function (?string $state): string {
+                                return (string) Str::of(strlen($state))
+                                    ->append(' / ')
+                                    ->append(160 . ' ');
+                            })
+                            ->extraFieldWrapperAttributes(['class' => 'tooltip']) // for tooltip styling
+                            ->hintAction(self::getHintActionWithToolTip(
+                                'Write a detailed description of your product, highlighting its features and benefits. This helps improve search visibility'))
+                            ->formatStateUsing(function (Textarea $component, ?Model $record) use ($locale) {
+                                return $record?->seo_model ? $record->seo_model['description'][$locale] : null;
+                            })
+                            ->reactive()
+                            ->hidden(fn($get) => $get('follow') == 'no index, no follow')
+                            ->columnSpan(2),
+                        TextInput::make($locale.'_keywords')
+                            ->label('Keywords [' . $locale . ']')
+                            ->formatStateUsing(function (TextInput $component, ?Model $record) use ($locale) {
+                                return $record?->seo_model ? $record->seo_model['keywords'][$locale] : null;
+                            })
+                            ->extraFieldWrapperAttributes(['class' => 'tooltip']) // for tooltip styling
+                            ->hintAction(self::getHintActionWithToolTip(
+                                'Add relevant keywords that customers might use to search for your product. Separate keywords with commas'))
+
+                            ->hidden(fn($get) => $get('follow') == 'no index, no follow')
                             ->columnSpan(2),
                     ]
                 )
@@ -111,6 +130,15 @@ class SEOField
                 $field = $callbacks->call($field);
             }
         }
+    }
+
+    public static function getHintActionWithToolTip(string $tooltip): Action
+    {
+        return Action::make('help')
+            ->icon('heroicon-o-question-mark-circle')
+            ->extraAttributes(['class' => 'text-gray-500'])
+            ->label('')
+            ->tooltip($tooltip);
     }
 
 }
