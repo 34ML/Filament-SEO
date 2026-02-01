@@ -11,12 +11,12 @@ test('can create post with adding en seo data', function () {
 
     $livewire
         ->set('data.title', 'Post title')
-        ->set('data.seo.en_title', 'seo title')
-        ->set('data.seo.en_description', 'seo description')
-        ->set('data.seo.en_keywords', 'seo keywords')
-        ->set('data.seo.follow', 'follow')
+        ->set('data.en_title', 'seo title')
+        ->set('data.en_description', 'seo description')
+        ->set('data.en_keywords', 'seo keywords')
+        ->set('data.follow', 'index, follow')
         ->call('submitForm')
-        ->assertHasNoErrors();
+        ->assertHasNoFormErrors();
 
     $this->assertDatabaseHas(Post::class, [
         'title' => 'Post title',
@@ -26,7 +26,7 @@ test('can create post with adding en seo data', function () {
         'title' => "{\"en\":\"seo title\"}",
         'description' => "{\"en\":\"seo description\"}",
         'keywords' => "{\"en\":\"seo keywords\"}",
-        'follow_type' => 'follow',
+        'follow_type' => 'index, follow',
     ]);
 });
 
@@ -43,12 +43,12 @@ test('can update a post without a seo model', function () {
 
     $livewire
         ->set('data.title', 'Post title')
-        ->set('data.seo.en_title', 'seo title')
-        ->set('data.seo.en_description', 'seo description')
-        ->set('data.seo.en_keywords', 'seo keywords')
-        ->set('data.seo.follow', 'follow')
+        ->set('data.en_title', 'seo title')
+        ->set('data.en_description', 'seo description')
+        ->set('data.en_keywords', 'seo keywords')
+        ->set('data.follow', 'index, follow')
         ->call('submitForm')
-        ->assertHasNoErrors();
+        ->assertHasNoFormErrors();
 
     $this->assertDatabaseHas(Post::class, [
         'title' => 'Post title',
@@ -58,7 +58,7 @@ test('can update a post without a seo model', function () {
         'title' => "{\"en\":\"seo title\"}",
         'description' => "{\"en\":\"seo description\"}",
         'keywords' => "{\"en\":\"seo keywords\"}",
-        'follow' => 'follow',
+        'follow_type' => 'index, follow',
     ]);
 });
 
@@ -76,12 +76,12 @@ test('can update the post with seo', function () {
     $livewire
         ->assertSet('post', $post)
         ->set('data.title', 'Post title #2')
-        ->set('data.seo.en_title', 'seo title #2')
-        ->set('data.seo.en_description', '')
-        ->set('data.seo.en_keywords', '')
-        ->set('data.seo.follow', 'nofollow')
+        ->set('data.en_title', 'seo title #2')
+        ->set('data.en_description', '')
+        ->set('data.en_keywords', '')
+        ->set('data.follow', 'no index, no follow')
         ->call('submitForm')
-        ->assertHasNoErrors();
+        ->assertHasNoFormErrors();
 
     expect($post->refresh())->title->toBe('Post title #2');
 
@@ -93,6 +93,6 @@ test('can update the post with seo', function () {
         'title' => "{\"en\":\"seo title #2\"}",
         'description' => "{\"en\":null}",
         "keywords" => "{\"en\":null}",
-        'follow' => 'follow',
+        'follow_type' => 'no index, no follow',
     ]);
 });
