@@ -6,17 +6,24 @@ use _34ml\SEO\SEOFieldServiceProvider;
 use Filament\FilamentServiceProvider;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Support\SupportServiceProvider;
+use Filament\Schemas\SchemasServiceProvider;
+use BladeUI\Icons\BladeIconsServiceProvider;
+use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\ViewErrorBag;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use _34ml\SEO\SEOServiceProvider;
 
 class TestCase extends Orchestra
 {
     protected function setUp(): void
     {
         parent::setUp();
+
+        View::addLocation(__DIR__ . '/Fixtures/resources/views');
+
+        View::share('errors', new ViewErrorBag());
 
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => '_34ml\\SEO\\Database\\Factories\\'.class_basename($modelName).'Factory'
@@ -31,6 +38,10 @@ class TestCase extends Orchestra
             FilamentServiceProvider::class,
             FormsServiceProvider::class,
             SupportServiceProvider::class,
+            SchemasServiceProvider::class,
+            BladeIconsServiceProvider::class,
+            BladeHeroiconsServiceProvider::class,
+            \Illuminate\View\ViewServiceProvider::class,
         ];
     }
 

@@ -7,8 +7,11 @@ use _34ml\SEO\Tests\Fixtures\Models\Post;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Schemas\Schema;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\MessageBag;
 use Livewire\Component;
 
 class CreatePost extends Component implements HasForms
@@ -24,33 +27,37 @@ class CreatePost extends Component implements HasForms
         $this->form->fill();
     }
 
+    public function getErrorBag()
+    {
+        $errorBag = parent::getErrorBag();
+        return $errorBag ?? new MessageBag();
+    }
+
     public function render(): View
     {
         return view('livewire.create-post');
     }
 
-    protected function getFormSchema(): array
+    public function form(Schema $schema): Schema
     {
-        return [
-            TextInput::make('title'),
-            ...SEOField::make(),
-        ];
-    }
-
-    protected function getFormStatePath(): ?string
-    {
-        return 'data';
-    }
-
-    protected function getFormModel(): Model|string|null
-    {
-        return Post::class;
+        return $schema
+            ->components([
+                TextInput::make('title'),
+                ...SEOField::make(),
+            ])
+            ->statePath('data')
+            ->model(Post::class);
     }
 
     public function submitForm(): void
     {
-        $post = Post::create($this->form->getState());
+        $state = $this->form->getState();
+
+        $post = Post::create(
+            Arr::except($state, ['seo'])
+        );
 
         $this->form->model($post)->saveRelationships();
+        $post->refresh();
     }
 }

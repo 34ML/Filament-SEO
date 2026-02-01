@@ -2,16 +2,12 @@
 
 namespace _34ml\SEO;
 
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Section;
+use Filament\Actions\Action;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class SEOField
@@ -23,9 +19,8 @@ class SEOField
         }
 
         foreach (config('filament-seo-field.locales') as $locale) {
-            $section = Group::make()
-                ->label($fieldDisplayName ?? 'SEO')
-                ->schema(
+            $section = Section::make($fieldDisplayName ?? 'SEO')
+                ->components(
                     [
                         Select::make('follow')
                             ->label('Index/Follow')
@@ -83,8 +78,6 @@ class SEOField
                             ->columnSpan(2),
                     ]
                 )
-                ->statePath('seo')
-                ->dehydrated(false)
                 ->saveRelationshipsUsing(function (Model $record, array $state) use ($locale): void {
                     $state = collect($state)->map(fn ($value) => $value ?: null)->all();
                     $record->load('seo_model');
