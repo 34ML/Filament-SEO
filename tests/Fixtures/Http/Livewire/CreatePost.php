@@ -9,7 +9,6 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Schema;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\MessageBag;
 use Livewire\Component;
@@ -30,7 +29,8 @@ class CreatePost extends Component implements HasForms
     public function getErrorBag()
     {
         $errorBag = parent::getErrorBag();
-        return $errorBag ?? new MessageBag();
+
+        return $errorBag ?? new MessageBag;
     }
 
     public function render(): View
