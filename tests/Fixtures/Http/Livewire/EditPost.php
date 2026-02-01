@@ -2,7 +2,6 @@
 
 namespace _34ml\SEO\Tests\Fixtures\Http\Livewire;
 
-use _34ML\SEO\SEO;
 use _34ml\SEO\SEOField;
 use _34ml\SEO\Tests\Fixtures\Models\Post;
 use Filament\Forms\Components\TextInput;
@@ -10,7 +9,6 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Schema;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\MessageBag;
 use Livewire\Component;
@@ -21,9 +19,9 @@ class EditPost extends Component implements HasForms
 
     public array $data = [];
 
-    public static $seoFields = [];
-
     public Post $post;
+
+    public static $seoFields = [];
 
     public function mount(): void
     {
@@ -35,7 +33,8 @@ class EditPost extends Component implements HasForms
     public function getErrorBag()
     {
         $errorBag = parent::getErrorBag();
-        return $errorBag ?? new MessageBag();
+
+        return $errorBag ?? new MessageBag;
     }
 
     public function render(): View

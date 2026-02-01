@@ -3,12 +3,12 @@
 namespace _34ml\SEO\Tests;
 
 use _34ml\SEO\SEOFieldServiceProvider;
+use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
+use BladeUI\Icons\BladeIconsServiceProvider;
 use Filament\FilamentServiceProvider;
 use Filament\Forms\FormsServiceProvider;
-use Filament\Support\SupportServiceProvider;
 use Filament\Schemas\SchemasServiceProvider;
-use BladeUI\Icons\BladeIconsServiceProvider;
-use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
+use Filament\Support\SupportServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ViewErrorBag;
@@ -17,17 +17,14 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
-    protected function setUp(): void
+    public function getEnvironmentSetUp($app)
     {
-        parent::setUp();
+        config()->set('database.default', 'testing');
 
         View::addLocation(__DIR__ . '/Fixtures/resources/views');
 
-        View::share('errors', new ViewErrorBag());
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => '_34ml\\SEO\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
+        (include __DIR__ . '/Fixtures/Migrations/create_post_table.php')->up();
+        (include __DIR__ . '/../vendor/34ml/laravel-seo/database/migrations/create_seo_table.php.stub')->up();
     }
 
     protected function getPackageProviders($app)
@@ -45,13 +42,16 @@ class TestCase extends Orchestra
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    protected function setUp(): void
     {
-        config()->set('database.default', 'testing');
+        parent::setUp();
 
         View::addLocation(__DIR__ . '/Fixtures/resources/views');
 
-        (include __DIR__ . '/Fixtures/Migrations/create_post_table.php')->up();
-        (include __DIR__ . '/../vendor/34ml/laravel-seo/database/migrations/create_seo_table.php.stub')->up();
+        View::share('errors', new ViewErrorBag);
+
+        Factory::guessFactoryNamesUsing(
+            fn (string $modelName) => '_34ml\\SEO\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+        );
     }
 }
